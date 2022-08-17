@@ -1,7 +1,8 @@
 require 'json'
+require 'oj'
 
 class Game
-  attr_accessor :dictionary_file, :word, :progress, :fails, :guess, :all_guesses
+  attr_accessor :dictionary_file, :word, :progress, :fails, :guess, :all_guesses, :save_choice
   def initialize
     @dictionary_file = open('google-10000-english.txt', 'r')
     @word = '123456789101112'
@@ -13,17 +14,22 @@ class Game
     @fails = 0
     @guess = ''
     @all_guesses = []
+    @save_choice
   end
 
   def take_guess
     puts 'make your guess:'
     @guess = gets.chomp
-    if @all_guesses.include? @guess
-      until @all_guesses.include? @guess == false
-        puts 'You already made that guess, be smarter. Try again: ' #this is not working
-        @guess = gets.chomp
+    if @guess == 'quit'
+      @save_choice = true
+    else
+      if @all_guesses.include? @guess
+        until @all_guesses.include? @guess == false
+          puts 'You already made that guess, be smarter. Try again: ' #this is not working
+          @guess = gets.chomp
+        end
+        @all_guesses.push @guess
       end
-      @all_guesses.push @guess
     end
   end
 
@@ -46,22 +52,41 @@ class Game
       true
     elsif @progress == @word
       true
+    elsif @guess == 'quit'
+      true
     else
       false
     end
   end
-
-  def save_game
-      
-
-
+  
+  def to_json
+  end
 end
 
+
+
+
+puts 'Would you like to load a saved game? [y/n]'
+load_choice = gets.chomp
+if load_choice == 'y'
+  save_file = File.open('save.txt', 'r')
+  save = save_file.read
+  new_game = Oj::load save, :indent =>2
+elsif load_choice == 'n'
 new_game = Game.new
+end
+
 p new_game.progress
+puts '-----------------------------'
 until new_game.should_end?
   new_game.take_guess
   new_game.resolve_round
   p new_game.progress
-  p new_game.fails
+  puts "Fails: #{new_game.fails}"
+  puts '-----------------------------'
+end
+if new_game.save_choice == true
+  save = Oj::dump new_game, :indent => 2
+  save_file = File.open('save.txt', 'w')
+  save_file.puts save
 end

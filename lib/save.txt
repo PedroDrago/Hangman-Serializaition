@@ -1,0 +1,24 @@
+{
+  "^o":"Game",
+  "dictionary_file":null,
+  "word":[
+    "o",
+    "b",
+    "j",
+    "e",
+    "c",
+    "t"
+  ],
+  "progress":[
+    "_",
+    "_",
+    "_",
+    "e",
+    "_",
+    "_"
+  ],
+  "fails":2,
+  "guess":"quit",
+  "all_guesses":[],
+  "save_choice":true
+}
