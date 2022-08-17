@@ -2,7 +2,7 @@ require 'json'
 require 'oj'
 
 class Game
-  attr_accessor :dictionary_file, :word, :progress, :fails, :guess, :all_guesses, :save_choice
+  attr_accessor :dictionary_file, :word, :progress, :fails, :guess, :all_guesses, :save_choice, :should_end
   def initialize
     @dictionary_file = open('google-10000-english.txt', 'r')
     @word = '123456789101112'
@@ -15,6 +15,7 @@ class Game
     @guess = ''
     @all_guesses = []
     @save_choice
+    @should_end = false
   end
 
   def take_guess
@@ -47,22 +48,20 @@ class Game
     end
   end
 
-  def should_end?
+  
+
+  def end_condition
     if @fails == 5
-      true
+      @should_end == true
     elsif @progress == @word
-      true
-    elsif @guess == 'quit'
-      true
+      @should_end = true
     else
-      false
+      @should_end = false
     end
   end
   
-  def to_json
-  end
-end
 
+end
 
 
 
@@ -75,14 +74,19 @@ if load_choice == 'y'
 elsif load_choice == 'n'
 new_game = Game.new
 end
-
+p new_game.should_end
+p new_game.word
 p new_game.progress
 puts '-----------------------------'
-until new_game.should_end?
+until new_game.should_end == true
   new_game.take_guess
+  if new_game.guess == 'quit'
+    break
+  end
   new_game.resolve_round
   p new_game.progress
   puts "Fails: #{new_game.fails}"
+  new_game.end_condition
   puts '-----------------------------'
 end
 if new_game.save_choice == true
