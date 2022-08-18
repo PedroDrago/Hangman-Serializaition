@@ -1,8 +1,8 @@
-require 'json'
 require 'oj'
 
 class Game
   attr_accessor :dictionary_file, :word, :progress, :fails, :guess, :all_guesses, :save_choice, :should_end
+
   def initialize
     @dictionary_file = open('google-10000-english.txt', 'r')
     @word = '123456789101112'
@@ -16,6 +16,7 @@ class Game
     @all_guesses = []
     @save_choice
   end
+
 
   def take_guess
     puts 'make your guess:'
@@ -50,12 +51,10 @@ class Game
   def should_end?
     if @fails == 5
       true
-    elsif @progress == @word #or progress has no underscore in it
+    elsif @progress == @word 
       true
     end
   end
-
-
 
 end
 
@@ -70,6 +69,7 @@ if load_choice == 'y'
 elsif load_choice == 'n'
 new_game = Game.new
 end
+
 p new_game.word
 p new_game.progress
 new_game.should_end?
@@ -91,6 +91,8 @@ if new_game.save_choice == true
   save_file.puts save
 end
 
-#game has to end if player enter choice
-#game has to end if player fails 5 times
-#game has to end if player guess the word right
+if new_game.progress == new_game.word
+  puts 'you guessed right, you won!'
+elsif new_game.fails == 5
+  puts 'You failed 5 times, you lost.'
+end
