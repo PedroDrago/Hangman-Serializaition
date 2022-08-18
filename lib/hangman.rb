@@ -15,7 +15,6 @@ class Game
     @guess = ''
     @all_guesses = []
     @save_choice
-    @should_end = false
   end
 
   def take_guess
@@ -48,18 +47,15 @@ class Game
     end
   end
 
-  
-
-  def end_condition
+  def should_end?
     if @fails == 5
-      @should_end == true
-    elsif @progress == @word
-      @should_end = true
-    else
-      @should_end = false
+      true
+    elsif @progress == @word #or progress has no underscore in it
+      true
     end
   end
-  
+
+
 
 end
 
@@ -74,19 +70,19 @@ if load_choice == 'y'
 elsif load_choice == 'n'
 new_game = Game.new
 end
-p new_game.should_end
 p new_game.word
 p new_game.progress
+new_game.should_end?
 puts '-----------------------------'
-until new_game.should_end == true
+until new_game.should_end? == true
   new_game.take_guess
   if new_game.guess == 'quit'
     break
   end
   new_game.resolve_round
+  new_game.should_end?
   p new_game.progress
   puts "Fails: #{new_game.fails}"
-  new_game.end_condition
   puts '-----------------------------'
 end
 if new_game.save_choice == true
@@ -94,3 +90,7 @@ if new_game.save_choice == true
   save_file = File.open('save.txt', 'w')
   save_file.puts save
 end
+
+#game has to end if player enter choice
+#game has to end if player fails 5 times
+#game has to end if player guess the word right

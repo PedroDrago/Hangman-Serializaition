@@ -2,28 +2,23 @@
   "^o":"Game",
   "dictionary_file":null,
   "word":[
+    "g",
+    "r",
+    "a",
+    "t",
     "i",
-    "n",
-    "c",
-    "i",
-    "d",
-    "e",
-    "n",
-    "t"
+    "s"
   ],
   "progress":[
+    "g",
+    "r",
+    "a",
     "_",
-    "n",
     "_",
-    "_",
-    "_",
-    "e",
-    "n",
-    "t"
+    "_"
   ],
-  "fails":1,
-  "guess":"quit",
+  "fails":5,
+  "guess":"l",
   "all_guesses":[],
-  "should_end":false,
   "save_choice":true
 }
