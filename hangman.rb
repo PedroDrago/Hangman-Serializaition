@@ -4,7 +4,7 @@ class Game
   attr_accessor :dictionary_file, :word, :progress, :fails, :guess, :all_guesses, :save_choice, :should_end
 
   def initialize
-    @dictionary_file = open('lib/google-10000-english.txt', 'r')
+    @dictionary_file = open('google-10000-english.txt', 'r')
     @word = '123456789101112'
     until @word.length > 5 && @word.length < 12
       @word = File.readlines(@dictionary_file).sample.split('')
