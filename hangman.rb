@@ -58,15 +58,19 @@ class Game
 
 end
 
+if !File.zero?('save.txt')
+  puts 'Would you like to load a saved game? [y/n]'
+  load_choice = gets.chomp
+else
+  load_choice = 'n'
+end
 
-puts 'Would you like to load a saved game? [y/n]'
-load_choice = gets.chomp
 if load_choice == 'y'
   save_file = File.open('save.txt', 'r')
   save = save_file.read
   new_game = Oj::load save, :indent =>2
 elsif load_choice == 'n'
-new_game = Game.new
+  new_game = Game.new
 end
 
 p new_game.progress
