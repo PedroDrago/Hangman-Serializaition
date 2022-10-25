@@ -59,7 +59,6 @@ class Game
 end
 
 
-
 puts 'Would you like to load a saved game? [y/n]'
 load_choice = gets.chomp
 if load_choice == 'y'
@@ -70,7 +69,6 @@ elsif load_choice == 'n'
 new_game = Game.new
 end
 
-p new_game.word
 p new_game.progress
 new_game.should_end?
 puts '-----------------------------'
@@ -93,6 +91,9 @@ end
 
 if new_game.progress == new_game.word
   puts 'you guessed right, you won!'
+  File.open('save.txt', 'w') {}
 elsif new_game.fails == 5
   puts 'You failed 5 times, you lost.'
+  puts "The word was: #{new_game.word.join('')}"
+  File.open('save.txt', 'w') {}
 end
